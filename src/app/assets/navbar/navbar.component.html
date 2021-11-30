@@ -1,12 +1,24 @@
+<!-- Dropdown Structure -->
+<ul id="dropdown1" class="dropdown-content">
+  <li><a href="#!">Editar</a></li>
+  <li><a href="#!">Crear</a></li>
+  <li class="divider"></li>
+  <li><a href="#!">Leer</a></li>
+</ul>
 <nav>
     <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Logo</a>
+      <a href="#" class="brand-logo"><i class="material-icons">directions_bus</i>Uber Buses</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
         <li><a routerLink="/admin/get">Administrador</a></li>
         <li><a routerLink="/estaciones/get">Estaciones</a></li>
+        <!-- Dropdown Trigger -->
+        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
         <li><a routerLink="/rutas/get">Rutas</a></li>
         <li><a routerLink="/servicios/get">Servicios</a></li>
-        <li><a routerLink="/seguridad/login">Login</a></li>
+        <!-- Sesion -->
+        <li *ngIf="!activeSession"><a routerLink="/seguridad/login">Login</a></li>
+        <li *ngIf="activeSession"><a routerLink="/seguridad/logout">Cerrar Sesion</a></li>
       </ul>
     </div>
   </nav>
+  
