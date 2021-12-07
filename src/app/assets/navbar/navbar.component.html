@@ -9,12 +9,13 @@
     <div class="nav-wrapper">
       <a href="#" class="brand-logo"><i class="material-icons">directions_bus</i>Uber Buses</a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a routerLink="/admin/get">Administrador</a></li>
-        <li><a routerLink="/estaciones/get">Estaciones</a></li>
+        <li *ngIf="activeSession"><a routerLink="/admin/get">Administrador</a></li>
+        <li *ngIf="activeSession"><a routerLink="/estaciones/get">Estaciones</a></li>
         <!-- Dropdown Trigger -->
-        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li>
-        <li><a routerLink="/rutas/get">Rutas</a></li>
-        <li><a routerLink="/servicios/get">Servicios</a></li>
+        <!-- <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Dropdown<i class="material-icons right">arrow_drop_down</i></a></li> -->
+        <li *ngIf="activeSession"><a routerLink="/rutas/get">Rutas</a></li>
+        <li *ngIf="activeSession"><a routerLink="/servicios/get">Servicios</a></li>
+        <li *ngIf="!activeSession"><a routerLink="/admin/create">Registrarse</a></li>
         <!-- Sesion -->
         <li *ngIf="!activeSession"><a routerLink="/seguridad/login">Login</a></li>
         <li *ngIf="activeSession"><a routerLink="/seguridad/logout">Cerrar Sesion</a></li>

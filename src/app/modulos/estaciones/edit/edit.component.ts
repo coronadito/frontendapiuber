@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EstacionModelo } from 'src/app/modelos/estacion.model';
+import { EstacionesService } from 'src/app/servicios/estaciones.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit',
@@ -7,9 +12,57 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditComponent implements OnInit {
 
-  constructor() { }
+  constructor(private fb: FormBuilder,
+    private estacionService: EstacionesService,
+    private router: Router,
+    private route: ActivatedRoute) { }
+
+  fgValidacion = this.fb.group({
+      nombre: ['', [Validators.required]],
+      id: ['', [Validators.required]],
+      direccion: ['', [Validators.required]],
+      coordenada_x: ['', [Validators.required]],
+      coordenada_y: ['', [Validators.required]],
+      Tipo: ['', [Validators.required]],
+    });
+
+    id: string=''
+
+  buscarRegistro(id: string){
+      this.estacionService.getWithId(id).subscribe((data: EstacionModelo) => {
+        console.log(data)
+        this.fgValidacion.controls["id"].setValue(id)
+        this.fgValidacion.controls["nombre"].setValue(data.nombre)
+        this.fgValidacion.controls["direccion"].setValue(data.direccion)
+        this.fgValidacion.controls["coordenada_x"].setValue(data.coordenada_x)
+        this.fgValidacion.controls["coordenada_y"].setValue(data.coordenada_y)
+        this.fgValidacion.controls["Tipo"].setValue(data.Tipo)
+      })
+    }
+  
+  edit(){
+      let estacion = new EstacionModelo();
+      estacion.id = this.fgValidacion.controls["id"].value;
+      estacion.nombre = this.fgValidacion.controls["nombre"].value;
+      estacion.direccion = this.fgValidacion.controls["direccion"].value;
+      estacion.coordenada_x = this.fgValidacion.controls["coordenada_x"].value;
+      estacion.coordenada_y = this.fgValidacion.controls["coordenada_y"].value;
+      estacion.Tipo = this.fgValidacion.controls["Tipo"].value;
+   
+      this.estacionService.update(estacion).subscribe((data: EstacionModelo)=> {
+        Swal.fire('Editado Correctamente!', '', 'success')
+        this.router.navigate(['/estaciones/get']);
+      },
+      (error: any) => {
+        console.log(error)
+        alert("Error en el envio");
+      })
+    }
+  
 
   ngOnInit(): void {
+    this.id = this.route.snapshot.params["id"]
+    this.buscarRegistro(this.id);
   }
 
 }

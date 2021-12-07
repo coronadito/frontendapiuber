@@ -27,7 +27,12 @@ export class EstacionesService {
         coordenada_x: estaciones.coordenada_x,
         coordenada_y: estaciones.coordenada_y,
         Tipo: estaciones.Tipo
-      });
+      } ,{
+        headers: new HttpHeaders({
+          "Authorization": `Bearer ${this.token}`
+        })
+      }
+      );
     }
 
     // READ
